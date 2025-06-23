@@ -26,5 +26,3 @@ def insertarTarjeta(data):
         return True, "Adicionada"
     except sqlite3.Error as e:
         return False, "Error"
-
-
