@@ -1,7 +1,11 @@
 import streamlit as st
 import Database as db
+from datetime import datetime
+import supabase
+import pandas as pd
 
-def creditCardsInfo():
+def creditCardsInfo(user: str,
+                    conn):
     st.title('Registro de tarjetas')
 
     with st.form('Registro tarjetas'):
@@ -20,18 +24,29 @@ def creditCardsInfo():
 
 
         if enviado:
-            data = (
-                banco, franquicia, categoria, digitos,
-                dia_corte, dia_pago, cupo, tasa,
-                int(cuota_manejo), int(beneficio_tasa)
-            )
-            ok, mensaje = db.insertarTarjeta(data)
-            if ok:
-                st.success(mensaje) 
-            else:
-                st.error(mensaje)
+
+            data = {
+                'user':user,
+                'banc':banco,
+                'cc_network':franquicia,
+                'cc_category':categoria,
+                'last_digits':digitos,
+                'billing.day':dia_corte,
+                'payment_day':dia_pago,
+                'credit_limit':cupo,
+                'interest_rate':tasa,
+                'deal_1':cuota_manejo,
+                'deal_2':beneficio_tasa
+            }
+
+            try: 
+                resp = conn.table('TarjetasCredito').insert(data).execute()
+                st.success("💳 Tarjetas Registradas")
+            except Exception as e:
+                st.error(f"Error al registrar: {e}")
 
     # Mostrar tabla de tarjetas registradas
     st.subheader("💳 Tarjetas Registradas")
-    df = db.obtenerTarjetas()
+    df = conn.table('TarjetasCredito').select("*").eq("user",user).execute()
+    df = pd.DataFrame(df)
     st.dataframe(df)

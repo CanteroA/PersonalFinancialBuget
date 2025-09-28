@@ -5,7 +5,9 @@ import streamlit as st
 from datetime import datetime
 from creditCardsInfo import creditCardsInfo
 from auth.login import loginUser, logoutUser
+from db_supa import supabase_connector
 
+supaConnection = supabase_connector()
 
 st.set_page_config(page_title="My Intelligent Budget",layout="centered")
 
@@ -53,7 +55,7 @@ else:
 
     elif opcion == "Gestion de tarjetas de credito":
         st.title("💳 Gestión de Tarjetas de Crédito")
-        creditCardsInfo()
+        creditCardsInfo(user=st.session_state['user'].user.email, conn=supaConnection)
 
     elif opcion == "Movimientos":
         st.title("📒 Registro de movimientos")
