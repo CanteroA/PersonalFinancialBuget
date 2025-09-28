@@ -25,13 +25,13 @@ if not st.session_state["user"]:
         submitted = st.form_submit_button("Acceder")
 
         if submitted:
-            user = loginUser(email,password)
-            if user:
-                st.session_state["user"] = user
+            ok = loginUser(email,password)
+            if ok:
                 st.success("Bienvenido a su presupuesto inteligente.")
                 st.rerun()
             else:
                 st.error("Credenciales inválidas o usuario no registrado.")
+                st.session_state["user"] = None
             
 else:
     st.sidebar.title("Opciones")
