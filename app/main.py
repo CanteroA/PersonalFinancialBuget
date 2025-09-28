@@ -30,7 +30,6 @@ if not st.session_state["user"]:
                 st.rerun()
             else:
                 st.error("Credenciales inválidas o usuario no registrado.")
-                st.session_state["user"] = None
             
 else:
     st.sidebar.title("Opciones")
