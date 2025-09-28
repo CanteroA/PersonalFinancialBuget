@@ -45,7 +45,7 @@ else:
 
     if st.session_state["user"] is not None:
         st.sidebar.write("---")
-        st.sidebar.success(f"Sesión: {st.session_state['user'].user.email}")
+        st.sidebar.success(f"Sesión: {st.session_state["user"]["email"]}")
 
     # Opciones
 
@@ -55,7 +55,7 @@ else:
 
     elif opcion == "Gestion de tarjetas de credito":
         st.title("💳 Gestión de Tarjetas de Crédito")
-        creditCardsInfo(user=st.session_state['user'].user.email, conn=supaConnection)
+        creditCardsInfo(user=st.session_state["user"]["id"], conn=supaConnection)
 
     elif opcion == "Movimientos":
         st.title("📒 Registro de movimientos")
