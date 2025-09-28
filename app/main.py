@@ -27,7 +27,6 @@ if not st.session_state["user"]:
         if submitted:
             ok = loginUser(email,password)
             if ok:
-                st.success("Bienvenido a su presupuesto inteligente.")
                 st.rerun()
             else:
                 st.error("Credenciales inválidas o usuario no registrado.")
